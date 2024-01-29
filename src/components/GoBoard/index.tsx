@@ -3,12 +3,17 @@ import React, { useEffect } from 'react';
 import { BoardSize, BoardStyle } from '../../enum';
 import Intersection from '../Intersection';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBoardDimensions } from '../../redux/slices/boardSlice';
+import { resetBoard } from '../../redux/slices/boardSlice';
 
 const GoBoard = () => {
+  const dispatch = useDispatch();
   const intersections = useSelector((state: any) => state.board.intersections);
-  const size = useSelector((state: {board: {dimensions: keyof typeof BoardSize}}) => state.board.dimensions);
+  const size = useSelector((state: {board: {boardSize: keyof typeof BoardSize}}) => state.board.boardSize);
   const boardSize = BoardSize[size];
+
+  useEffect(() => {
+    dispatch(resetBoard())
+  }, [size]);
 
   return (
     <div className={`${BoardStyle[size]} w-[580px] h-[580px]`}>
