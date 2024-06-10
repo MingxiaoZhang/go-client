@@ -51,3 +51,9 @@ export enum TimeControl {
     CLASSIC = 1800,
     CUSTOM = 0
 }
+
+export enum GameMode {
+    LOCAL = 'local',
+    ONLINE = 'online',
+    VSBOT = 'vsbot'
+}

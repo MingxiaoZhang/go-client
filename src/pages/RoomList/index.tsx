@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Piece, PlayerType, SocketAction } from '../../enum';
 import { useNavigate } from "react-router-dom";
 import { Room } from '../../types';
-import { setBoardSize, setPlayers, setRoomName, setTimeControl } from '../../redux/slices/boardSlice';
+import { setBoardSize, setPlayers, setRoomName, setTimeControl } from '../../redux/slices/onlineGameSlice';
 
-const RoomList: React.FC = () => {
+const RoomList = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const rooms = useSelector((state: any) => state.room.rooms);

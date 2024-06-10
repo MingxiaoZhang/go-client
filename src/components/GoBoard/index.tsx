@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { BoardSize, BoardStyle } from '../../enum';
 import Intersection from '../Intersection';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetBoard } from '../../redux/slices/boardSlice';
+import { resetBoard } from '../../redux/slices/onlineGameSlice';
 
 const GoBoard = () => {
   const dispatch = useDispatch();

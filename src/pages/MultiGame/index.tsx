@@ -3,8 +3,8 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import GoBoard from '../../components/GoBoard';
 import { BoardSize, Piece, PlayerType, SocketAction, TimeControl } from '../../enum';
 import { useDispatch, useSelector } from 'react-redux';
-import { startGame } from '../../redux/slices/gameSlice';
-import { resetBoard, setBoardSize, setIsCreated, setPlayerColor, setPlayers, setRoomName, setTimeControl } from '../../redux/slices/boardSlice';
+import { startGame } from '../../redux/slices/localGameSlice';
+import { resetBoard, setBoardSize, setIsCreated, setPlayerColor, setPlayers, setRoomName, setTimeControl } from '../../redux/slices/onlineGameSlice';
 import PlayerPanel from '../../components/PlayerPanel';
 import { useLocation } from 'react-router-dom';
 

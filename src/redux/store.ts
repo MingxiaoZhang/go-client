@@ -1,7 +1,7 @@
 // src/redux/store.ts
 import { applyMiddleware, configureStore } from '@reduxjs/toolkit';
-import gameReducer from './slices/gameSlice';
-import boardReducer from './slices/boardSlice';
+import localGameReducer from './slices/localGameSlice';
+import onlineGameReducer from './slices/onlineGameSlice';
 import roomReducer from './slices/roomSlice';
 import { socket } from '../sockets/socket';
 import socketMiddleware from './middleware/socketMiddleware';
@@ -11,8 +11,8 @@ console.log("Middleware")
 
 const store = configureStore({
   reducer: {
-    game: gameReducer,
-    board: boardReducer,
+    localGame: localGameReducer,
+    onlineGame: onlineGameReducer,
     room: roomReducer
   },
   middleware: (getDefaultMiddleware) =>

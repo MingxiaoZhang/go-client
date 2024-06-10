@@ -4,27 +4,26 @@ import { BoardSize, Piece, PlayerType, TimeControl } from '../../enum';
 import { playMove } from '../../util/gameUtil';
 import { Player } from '../../types';
 
-interface BoardState {
+export type OnlineGameState = {
   playerId: string;
   playerName: string;
   roomName: string;
   playerColor: Piece;
-  intersections: Piece[][];
+  board: Piece[][];
   boardSize: keyof typeof BoardSize;
   timeControl: keyof typeof TimeControl;
   currentPlayer: Piece;
   players: {[key in Piece]: Player};
-  isLocal: boolean;
   isStarted: boolean;
   isCreated: boolean;
 }
 
-const initialState: BoardState = {
+const initialState: OnlineGameState = {
   playerId: '',
   playerName: 'Guest',
   roomName: '',
   playerColor: Piece.BLACK,
-  intersections: [],
+  board: [],
   boardSize: 'SMALL',
   timeControl: 'CLASSIC',
   currentPlayer: Piece.BLACK,
@@ -42,13 +41,12 @@ const initialState: BoardState = {
       id: ''
     },
   },
-  isLocal: true,
   isStarted: false,
   isCreated: false
 };
 
-const boardSlice = createSlice({
-  name: 'board',
+const onlineGameSlice = createSlice({
+  name: 'onlineGame',
   initialState,
   reducers: {
     setIsCreated: (state, action) => {
@@ -67,22 +65,15 @@ const boardSlice = createSlice({
         } else {
           state.playerColor = Piece.WHITE;
         }
-        state.isLocal = false;
       }
       const size = BoardSize[state.boardSize as keyof typeof BoardSize];
-      state.intersections = Array.from({ length: size }, () => Array(size).fill(Piece.NONE));
+      state.board = Array.from({ length: size }, () => Array(size).fill(Piece.NONE));
       state.currentPlayer = Piece.BLACK;
   },
     updateBoard: (state, action) => {
       const { board, currentPlayer } = action.payload;
-      state.intersections = board;
+      state.board = board;
       state.currentPlayer = currentPlayer;
-    },
-    placePiece: (state, action) => {
-      const { row, col, currentPlayer } = action.payload;
-      if (playMove(state.intersections, row, col, currentPlayer)) {
-        state.currentPlayer = state.currentPlayer === Piece.BLACK ? Piece.WHITE : Piece.BLACK;
-      }
     },
     setPlayers: (state, action) => {
       const players = action.payload;
@@ -101,11 +92,11 @@ const boardSlice = createSlice({
         const dimensions = action.payload;
         state.boardSize = dimensions;
         const size = BoardSize[dimensions as keyof typeof BoardSize];
-        state.intersections = Array.from({ length: size }, () => Array(size).fill(Piece.NONE));
+        state.board = Array.from({ length: size }, () => Array(size).fill(Piece.NONE));
     },
     resetBoard: (state) => {
       const size = BoardSize[state.boardSize as keyof typeof BoardSize];
-      state.intersections = Array.from({ length: size }, () => Array(size).fill(Piece.NONE));
+      state.board = Array.from({ length: size }, () => Array(size).fill(Piece.NONE));
       state.currentPlayer = Piece.BLACK;
     },
     setPlayerName: (state, action) => {
@@ -130,7 +121,6 @@ export const {
   setPlayerColor,
   setPlayerID,
   startGame,
-  placePiece,
   setPlayerName,
   setBoardSize,
   resetBoard,
@@ -138,5 +128,5 @@ export const {
   updateBoard,
   setRoomName,
   setTimeControl
-} = boardSlice.actions;
-export default boardSlice.reducer;
+} = onlineGameSlice.actions;
+export default onlineGameSlice.reducer;

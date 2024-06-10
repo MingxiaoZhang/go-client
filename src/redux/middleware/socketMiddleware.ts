@@ -2,7 +2,7 @@
 import { Action, Middleware } from '@reduxjs/toolkit';
 import { io, Socket } from 'socket.io-client';
 import { SocketAction } from '../../enum';
-import { resetBoard, setRoomName, setTimeControl, setPlayers, startGame, updateBoard, setBoardSize, setPlayerID, setIsCreated } from '../slices/boardSlice';
+import { resetBoard, setRoomName, setTimeControl, setPlayers, startGame, updateBoard, setBoardSize, setPlayerID, setIsCreated } from '../slices/onlineGameSlice';
 import { setRooms } from '../slices/roomSlice';
 import { Room } from '../../types';
 

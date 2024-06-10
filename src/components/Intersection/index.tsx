@@ -1,9 +1,11 @@
 // src/components/Intersection.tsx
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Piece, PieceStyle, PlayerType, SocketAction } from '../../enum';
-import { placePiece } from '../../redux/slices/boardSlice';
+import { GameMode, Piece, PieceStyle, PlayerType, SocketAction } from '../../enum';
 import { IRootState } from '../../redux/store';
+import useGameState from '../../hooks/useGameState';
+import { useParams } from 'react-router-dom';
+import useActions from '../../hooks/useActions';
 
 interface IntersectionProps {
   size: number;
@@ -14,10 +16,14 @@ interface IntersectionProps {
 
 const Intersection: React.FC<IntersectionProps> = ({ size, row, col, piece }) => {
   const dispatch = useDispatch();
-  const currentPlayer = useSelector((state: any) => state.board.currentPlayer);
-  const playerColor: Piece = useSelector((state: IRootState) => state.board.playerColor);
-  const isLocal = useSelector((state: any) => state.board.isLocal);
-  const playerName = useSelector((state: any) => state.board.playerName);
+  const { gameMode } = useParams<{ gameMode: GameMode }>();
+  const { placePiece } = useActions(gameMode || GameMode.LOCAL);
+  // const gameState = useGameState(gameMode || GameMode.LOCAL);
+
+  // const currentPlayer = useSelector((state: IRootState) => state.multiGame.currentPlayer);
+  // const playerColor: Piece = useSelector((state: IRootState) => state.multiGame.playerColor);
+  // const isLocal = useSelector((state: IRootState) => state.multiGame.isLocal);
+  // const playerName = useSelector((state: IRootState) => state.multiGame.playerName);
 
   const getWStyle = (row: number, col: number) => {
     if (col === size - 1) {
@@ -32,15 +38,7 @@ const Intersection: React.FC<IntersectionProps> = ({ size, row, col, piece }) =>
     return "h-full absolute top-1/2 left-1/2";
   };
   const handleClick = () => {
-    if (isLocal && piece === Piece.NONE) {
-      dispatch(placePiece({ row, col, currentPlayer }));
-      return;
-    }
-    if (currentPlayer !== playerColor) {
-      return
-    }
-    dispatch({type: SocketAction.PLAY_MOVE, payload: {playerName, row, col, playerColor: String(playerColor)}});
-   
+    placePiece({row, col})
   };
 
   return (

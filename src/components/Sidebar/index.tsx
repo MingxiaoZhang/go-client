@@ -5,7 +5,15 @@ import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
 import "./style.css";
 import { Link } from 'react-router-dom';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  sidebarItems: {
+    option: string,
+    link: string,
+    icon: JSX.Element
+  }[]
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ sidebarItems }) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleSidebar = () => {
@@ -20,36 +28,13 @@ const Sidebar: React.FC = () => {
           </Link>
           <nav className='flex justify-center'>
             <ul>
-              <li className="side-item">
-                <Link to="/local">
-                  {isExpanded ? 'Play Local' : <FaHome size={24}/>}
-                </Link>
-              </li>
-              <li className="side-item">
-                <Link to="/rooms">
-                  {isExpanded ? 'Play Online' : <FaHome size={24}/>}
-                </Link>
-              </li>
-              <li className="side-item">
-                <Link to="/rules">
-                  {isExpanded ? 'Rules' : <FaHome size={24}/>}
-                </Link>
-              </li>
-              <li className="side-item">
-                <Link to="/local">
-                  {isExpanded ? 'Play Local' : <FaHome size={24}/>}
-                </Link>
-              </li>
-              <li className="side-item">
-                <Link to="/local">
-                  {isExpanded ? 'Play Local' : <FaHome size={24}/>}
-                </Link>
-              </li>
-              <li className="side-item">
-                <Link to="/local">
-                  {isExpanded ? 'Play Local' : <FaHome size={24}/>}
-                </Link>
-              </li>
+              {sidebarItems.map(({link, option, icon}) => 
+                <li className="side-item">
+                  <Link to={link}>
+                    {isExpanded ? option : icon}
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
         </div>

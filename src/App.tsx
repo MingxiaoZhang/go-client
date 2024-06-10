@@ -13,20 +13,22 @@ import MultiGamePage from './pages/MultiGame';
 import RulesPage from './pages/Rules';
 import Sidebar from './components/Sidebar';
 import RoomList from './pages/RoomList';
+import { sidebarItems } from './components/Sidebar/sidebarItems';
+import { menuItems } from './pages/Menu/menuItems';
 
-function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <Router>
         <div className="flex h-full">
-          <Sidebar />
+          <Sidebar sidebarItems={sidebarItems}/>
           <div className="flex-1 p-4">
             <Routes>
               <Route path="/local" element={<LocalGamePage />} />
               <Route path="/multi" element={<MultiGamePage />} />
               <Route path="/rooms" element={<RoomList />} />
               <Route path="/rules" element={<RulesPage />} />
-              <Route path="/" element={<Menu />} />
+              <Route path="/" element={<Menu menuItems={menuItems} />} />
             </Routes>
           </div>
         </div>
